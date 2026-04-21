@@ -142,6 +142,9 @@ void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float info
       text("Leeftijdscategorie: " + selectedPoint.leeftijdsCategorie, inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;
 
+      text("Waarde Totaal: " + str(selectedPoint.waardeTotaal), inhoudStartX, huidigeRegelY);
+      huidigeRegelY += regelHoogte;
+
       } else {
       text("Hover over een blokje", inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;

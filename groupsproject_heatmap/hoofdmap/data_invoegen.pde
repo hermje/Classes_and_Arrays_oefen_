@@ -62,4 +62,14 @@ for(int j = 0; j < dataPunt.size(); j++) {
   }
 }
 }
+
+//WAARDE 
+for(int i = 0; i < exelBestand.getRowCount(); i++) {
+  float tempWaardeTotaal = exelBestand.getFloat(i, "Totaal"); // hier wordt de waarde van de "Totaal" kolom opgehaald uit het CSV bestand, op basis van de rij index i, deze waarde wordt opgeslagen in de variabele tempWaarde
+for(int j = 0; j < dataPunt.size(); j++) {
+  if (dataPunt.get(j).indexNummer == i) { //hier wordt gecontroleerd of de index van het dataPunten object overeenkomt met de rij index i van het CSV bestand, als dit het geval is, dan wordt de waarde gekoppeld aan het dataPunten object, zodat we deze later kunnen gebruiken in de display en select functies van de dataPunten class, en in de informatiebalk.
+    dataPunt.get(j).waardeTotaal = tempWaardeTotaal;
+  }
+}
+}
 }
