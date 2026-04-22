@@ -33,10 +33,10 @@ void updateInfoBalkPositie() { //functie die de positie van de informatiebalk aa
 
 void lijnObjectenUitMetGrid() { //AI: functie die objecten en grid automatisch alligneerd om verwerking makkelijker te maken 
   gridMargin = margin;
-  gridCellWidth = (getGridEndX() - gridMargin) / aantalKolommen;
-  gridCellHeight = (height - 2 * gridMargin) / aantalRijen;
-  gridSpacerX = gridMargin;
-  gridSpacerY = gridMargin;
+  gridCellWidth = getGridCellWidth();
+  gridCellHeight = getGridCellHeight();
+  gridSpacerX = gridMargin + gridCellWidth;
+  gridSpacerY = gridMargin + gridCellHeight;
 
   for (int i = 0; i < dataPunt.size(); i++) {
     dataPunten punt = dataPunt.get(i);
@@ -115,12 +115,42 @@ class dataPunten { //Gekozen om met classes te werken omdat we dan alle eigensch
     }
   }
 
-  void calculateDeviation() { 
-    // NOG MAKEN, PER LEEFTIJDSCATEGORIE
+  // Deviatie berekening op basis van leeftijdscategorie
+  float calculateDeviation() {
+    float categoryMean = getCategoryMean();
+    
+    if (categoryMean == 0) {
+      return 0;
+    }
+    
+    // Deviatie = verschil met gemiddelde (kan + of - zijn), afgerond op 2 decimalen
+    float deviation = waardeTotaal - categoryMean;
+    waardeTotaalDeviation = round(deviation * 100) / 100.0;
+    return waardeTotaalDeviation;
+  }
+  
+  // Hulpfunctie: gemiddelde voor deze leeftijdscategorie ophalen
+  float getCategoryMean() {
+    switch(leeftijdsCategorie) {
+      case "<15":
+        return calculateMeanSub15();
+      case "15-19":
+        return calculateMean15to19();
+      case "20-24":
+        return calculateMean20to24();
+      case "25-29":
+        return calculateMean25to29();
+      case "30-39":
+        return calculateMean30to39();
+      case "40-49":
+        return calculateMean40to49();
+      case "50+":
+        return calculateMean50Plus();
+      default:
+        return 0;
+    }
   }
 }
-
-
 
 
 void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float infoBalkHeight) {
@@ -145,8 +175,9 @@ void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float info
     textSize(inhoudTekstGrootte); //INFORMATIE IN INFORMATIEBALK
     textAlign(LEFT, TOP);
     if (selectedPoint != null) {
-      text("Indexnummer: " + str(selectedPoint.indexNummer), inhoudStartX, huidigeRegelY);
-      huidigeRegelY += regelHoogte; // Verhoog Y-positie voor volgende regel, telkens herhalen na tekst om regels netjes onder elkaar te plaatsen
+      // CHECK VOOR CORRECTE INDEXNUMMER
+      // text("Indexnummer: " + str(selectedPoint.indexNummer), inhoudStartX, huidigeRegelY);
+      //huidigeRegelY += regelHoogte; // Verhoog Y-positie voor volgende regel, telkens herhalen na tekst om regels netjes onder elkaar te plaatsen
       
       text("Land: " + selectedPoint.landNaam, inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;
@@ -154,8 +185,21 @@ void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float info
       text("Leeftijdscategorie: " + selectedPoint.leeftijdsCategorie, inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;
 
+      //BELANGRIJKSTE GEGEVENS TABEL: waarde + deviaties
       text("Totaal: " + str(selectedPoint.waardeTotaal), inhoudStartX, huidigeRegelY);
+
+      //KLEUREN: lager = groen; hoger = rood
+      if (selectedPoint.waardeTotaalDeviation < 0) {
+        fill(0, 255, 0);
+      } else {
+        fill(255, 0, 0);
+      }
+
+      text("Dev: " + str(selectedPoint.waardeTotaalDeviation), inhoudStartX + 150, huidigeRegelY);
       huidigeRegelY += regelHoogte;
+      
+      fill(0); //terug naar zwarte tekst voor de rest van de informatie
+
 
       text("Mannen: " + str(selectedPoint.waardeMan), inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;

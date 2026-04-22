@@ -15,6 +15,11 @@ void setup() {
   dataKoppelenAanObjecten();
   lijnObjectenUitMetGrid();
   updateInfoBalkPositie();
+  
+  // Deviaties berekenen voor alle punten
+  for (int i = 0; i < dataPunt.size(); i++) {
+    dataPunt.get(i).calculateDeviation();
+  }
 }
 
 void draw(){
@@ -30,11 +35,11 @@ void draw(){
       int index = r * (int)aantalKolommen + c; //CENTRAAL: GAAT ALLE INDEXEN AF!!! 
       dataPunt.get(index).display(); //tijdelijk om te kijken of de interactie werkt, later zal deze functie weggehaald worden
       dataPunt.get(index).select(); //Indien het kleuren van de vakjes tijdens het werken aan de code vervelend wordt, kan deze functie tijdelijk worden uitgecommentarieerd
-      dataPunt.get(index).calculateDeviation(); //functie die de afwijking van waardeTotaal ten opzichte van het gemiddelde berekent
     }
   }
 
   infoBalk (infoBalkX, infoBalkY, infoBalkWidth, infoBalkHeight); //functie die informatiebalk weergeeft 
 
   colorscale();
+
 }
