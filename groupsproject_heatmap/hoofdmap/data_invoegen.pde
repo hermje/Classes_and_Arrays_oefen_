@@ -63,7 +63,7 @@ for(int j = 0; j < dataPunt.size(); j++) {
 }
 }
 
-//WAARDE 
+//WAARDETOTAAL 
 for(int i = 0; i < exelBestand.getRowCount(); i++) {
   float tempWaardeTotaal = exelBestand.getFloat(i, "Totaal"); // hier wordt de waarde van de "Totaal" kolom opgehaald uit het CSV bestand, op basis van de rij index i, deze waarde wordt opgeslagen in de variabele tempWaarde
 for(int j = 0; j < dataPunt.size(); j++) {
@@ -71,5 +71,35 @@ for(int j = 0; j < dataPunt.size(); j++) {
     dataPunt.get(j).waardeTotaal = tempWaardeTotaal;
   }
 }
+}
+
+//WAARDEMAN 
+for(int i = 0; i < exelBestand.getRowCount(); i++) {
+  float tempWaardeMan = exelBestand.getFloat(i, "Man");
+  for(int j = 0; j < dataPunt.size(); j++) {
+    if (dataPunt.get(j).indexNummer == i) {
+      dataPunt.get(j).waardeMan = tempWaardeMan;
+    }
+  }
+}
+
+//WAARDEVOUWN
+for(int i = 0; i < exelBestand.getRowCount(); i++) {
+  float tempWaardeVrouw = exelBestand.getFloat(i, "Vrouw");
+  for(int j = 0; j < dataPunt.size(); j++) {
+    if (dataPunt.get(j).indexNummer == i) {
+      dataPunt.get(j).waardeVrouw = tempWaardeVrouw;
+    }
+  }
+}
+
+//WAARDETRANSGENDER
+for(int i = 0; i < exelBestand.getRowCount(); i++) {
+  float tempWaardeTransgender = exelBestand.getFloat(i, "Transgender");
+  for(int j = 0; j < dataPunt.size(); j++) {
+    if (dataPunt.get(j).indexNummer == i) {
+      dataPunt.get(j).waardeTransgender = tempWaardeTransgender;
+    }
+  }     
 }
 }

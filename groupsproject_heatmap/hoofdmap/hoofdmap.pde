@@ -20,6 +20,7 @@ void setup() {
 void draw(){
   //frameRate(10); //tijdelijk om te kijken of de interactie werkt, later zal deze regel weggehaald worden
   
+  tekenHeatmapUI();
   selectedPoint = null;
   lijnObjectenUitMetGrid();
   updateInfoBalkPositie();
@@ -29,6 +30,7 @@ void draw(){
       int index = r * (int)aantalKolommen + c; //CENTRAAL: GAAT ALLE INDEXEN AF!!! 
       dataPunt.get(index).display(); //tijdelijk om te kijken of de interactie werkt, later zal deze functie weggehaald worden
       dataPunt.get(index).select(); //Indien het kleuren van de vakjes tijdens het werken aan de code vervelend wordt, kan deze functie tijdelijk worden uitgecommentarieerd
+      dataPunt.get(index).calculateDeviation(); //functie die de afwijking van waardeTotaal ten opzichte van het gemiddelde berekent
     }
   }
 

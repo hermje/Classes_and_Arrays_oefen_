@@ -22,6 +22,8 @@ float infoBalkY = 100;
 float infoBalkWidth = 300;
 float infoBalkHeight = 500;
 float informatieSpacer = 10; // afstand tussen tekstregels in de informatiebalk
+
+
 void updateInfoBalkPositie() { //functie die de positie van de informatiebalk aanpast op basis van de breedte van de grid, zodat we flexibel kunnen zijn met de layout zonder overal in de code aanpassingen te moeten maken
   infoBalkX = getGridEndX() + InfoBalkAfstandTotEindeGrid;
 }
@@ -58,15 +60,13 @@ class dataPunten { //Gekozen om met classes te werken omdat we dan alle eigensch
   float indexNummer;
   String landNaam;
   String leeftijdsCategorie; //string want deze kan verschillende vormen aannemen, zoals "15-24", "25-34", "35-49", "50+" of "Totaal"
-  float waaardeMan;
+  float waardeMan;
   float waardeVrouw;
   float waardeTransgender;
   float waardeTotaal;
+  float waardeTotaalDeviation;
   
 
- 
-
- 
   dataPunten (float tempx, float tempy, float cellWidth, float cellHeight, float indexNummer) {
     //ALGEMENE EIGENSCHAPPEN VAN DE DATAPUNTEN, DIE NODIG ZIJN OM DE DATAPUNTEN OP HET SCHERM TE PLAATSEN EN TE INTERAGEREN
     this.x = tempx;
@@ -78,10 +78,12 @@ class dataPunten { //Gekozen om met classes te werken omdat we dan alle eigensch
     this.indexNummer = indexNummer;
     this.landNaam = "Onbekend";
     this.leeftijdsCategorie = "Onbekend";
-    this.waaardeMan = 0;
+    this.waardeMan = 0;
     this.waardeVrouw = 0;
     this.waardeTransgender = 0;
     this.waardeTotaal = 0;
+    this.waardeTotaalDeviation = 0;
+
   }
 
   void dataPuntenAanmaken (){ //functie die de datapunten aanmaak, in dit geval 210 datapunten, 30 landen x 7 leeftijdscategorieen
@@ -112,7 +114,14 @@ class dataPunten { //Gekozen om met classes te werken omdat we dan alle eigensch
       rect(sx, sy, cellWidth, cellHeight);
     }
   }
+
+  void calculateDeviation() { 
+    // NOG MAKEN, PER LEEFTIJDSCATEGORIE
+  }
 }
+
+
+
 
 void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float infoBalkHeight) {
 // INFORMATIEBALK RECHTS NAAST HEATMAP
@@ -124,6 +133,9 @@ void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float info
   float regelHoogte = inhoudTekstGrootte + informatieSpacer;
     float huidigeRegelY = inhoudStartY;
 
+    stroke(0);
+    strokeWeight(1);
+    fill(255);
     rect(infoBalkX, infoBalkY, infoBalkWidth, infoBalkHeight);
     fill(0);
     textSize(titelTekstGrootte);
@@ -142,7 +154,16 @@ void infoBalk (float infoBalkX, float infoBalkY, float infoBalkWidth, float info
       text("Leeftijdscategorie: " + selectedPoint.leeftijdsCategorie, inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;
 
-      text("Waarde Totaal: " + str(selectedPoint.waardeTotaal), inhoudStartX, huidigeRegelY);
+      text("Totaal: " + str(selectedPoint.waardeTotaal), inhoudStartX, huidigeRegelY);
+      huidigeRegelY += regelHoogte;
+
+      text("Mannen: " + str(selectedPoint.waardeMan), inhoudStartX, huidigeRegelY);
+      huidigeRegelY += regelHoogte;
+
+      text("Vrouwen: " + str(selectedPoint.waardeVrouw), inhoudStartX, huidigeRegelY);
+      huidigeRegelY += regelHoogte;
+
+      text("Transgender: " + str(selectedPoint.waardeTransgender), inhoudStartX, huidigeRegelY);
       huidigeRegelY += regelHoogte;
 
       } else {
